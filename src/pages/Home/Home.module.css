@@ -46,10 +46,21 @@
     padding-block: 10px;
 }
 
+.genre {
+    display: flex;
+    justify-content: center;
+        margin: 10px ;
+}
 
 .bookList {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     margin-block: 140px;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React, { useEffect, useState } from 'react';
@@ -66,7 +67,7 @@ function Book() {
   const bookContent = !loading && !book.delete ? (
     <div>
       <div className={styles.Book}>
-        <div className={styles.BookImage} style={{ backgroundImage: `url("${book.imageUrl}")` }} />
+        <div className={styles.BookImage} style={{ backgroundImage: `url("http://localhost:4000/${book.imageUrl}")` }} />
         <div className={styles.BookContent}>
           {book?.userId === connectedUser?.userId ? (
             <div className={styles.Owner}>
