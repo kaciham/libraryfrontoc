@@ -64,10 +64,12 @@ function Book() {
 
   const loadingContent = (<h1>Chargement ...</h1>);
 
+  const BACKSERVER = process.env.BACKSERVER || 'http://localhost:4000';
+
   const bookContent = !loading && !book.delete ? (
     <div>
       <div className={styles.Book}>
-        <div className={styles.BookImage} style={{ backgroundImage: `url("http://localhost:4000/${book.imageUrl}")` }} />
+        <div className={styles.BookImage} style={{ backgroundImage: `url("${BACKSERVER}/uploads/${book.imageUrl}")` }} />
         <div className={styles.BookContent}>
           {book?.userId === connectedUser?.userId ? (
             <div className={styles.Owner}>

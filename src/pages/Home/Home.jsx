@@ -15,6 +15,8 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 6;
 
+  const BACKSERVER = process.env.BACKSERVER || 'http://localhost:4000';
+
   useEffect(() => {
     async function getBooksList() {
       const data = await getBooks();
@@ -50,7 +52,7 @@ function Home() {
   const backgroundImageStyle = { backgroundImage: `url(${Banner})` };
 
   useEffect(() => {
-    axios('http://localhost:4000/api/categories') // Adjust API URL if necessary
+    axios(`${BACKSERVER}/api/categories`) // Adjust API URL if necessary
       .then((response) => setGenres(response.data))
       .catch((error) => console.error('Error fetching genres:', error));
   }, []);

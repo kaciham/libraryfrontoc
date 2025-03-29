@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { displayStars } from '../../../lib/functions';
 import styles from './BookItem.module.css';
 
+const BACKSERVER = process.env.BACKSERVER || 'http://localhost:4000';
+
 function BookItem({ book, size }) {
   let title;
   switch (size) {
@@ -20,7 +22,7 @@ function BookItem({ book, size }) {
   return (
     <Link to={`/livre/${book.id}`} className={styles.BookItem}>
       <article>
-        <img className={styles.BookImage} src={`http://localhost:4000/${book.imageUrl}`} alt={`${book.title}, ${book.author} - ${book.year}`} />
+        <img className={styles.BookImage} src={`${BACKSERVER}/uploads/${book.imageUrl}`} alt={`${book.title}, ${book.author} - ${book.year}`} />
         <div className={styles.BookInfo}>
           <div className={styles.Rating}>
             {displayStars(book.averageRating)}

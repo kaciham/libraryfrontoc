@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { generateStarsInputs } from '../../../lib/functions';
 import { useFilePreview } from '../../../lib/customHooks';
 import addFileIMG from '../../../images/add_file.png';
@@ -13,7 +14,9 @@ function BookForm({ book, validate }) {
   const userRating = book ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))?.grade : 0;
 
   const [rating, setRating] = useState(0);
+  const [genres, setGenres] = useState([]);
 
+  const BACKSERVER = process.env.BACKSERVER || 'http://localhost:4000';
   const navigate = useNavigate();
   const {
     register, watch, formState, handleSubmit, reset,
@@ -71,6 +74,13 @@ function BookForm({ book, validate }) {
   };
 
   const readOnlyStars = !!book;
+
+  useEffect(() => {
+    axios('http://localhost:4000/api/categories') //
+      .then((response) => setGenres(response.data))
+      // eslint-disable-next-line no-console
+      .catch((error) => console.log('Error fetching genres:', error));
+  }, []);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.Form}>
       <input type="hidden" id="id" {...register('id')} />
@@ -88,7 +98,11 @@ function BookForm({ book, validate }) {
       </label>
       <label htmlFor="genre">
         <p>Genre</p>
-        <input type="text" id="genre" {...register('genre')} />
+        <select id="genre" {...register('genre')}>
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre}>{genre}</option>
+          ))}
+        </select>
       </label>
       <label htmlFor="rate">
         <p>Note</p>
@@ -101,7 +115,7 @@ function BookForm({ book, validate }) {
         <div className={styles.AddImage}>
           {filePreview || book?.imageUrl ? (
             <>
-              <img src={filePreview ?? book?.imageUrl} alt="preview" />
+              <img src={filePreview ?? `${BACKSERVER}/uploads/${book?.imageUrl}`} alt="preview" />
               <p>Modifier</p>
             </>
           ) : (
